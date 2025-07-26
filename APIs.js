@@ -14,7 +14,6 @@ router.route('/health').get((req, res) => {
 });
 
 router.route('/protected').get(verifyToken, (req, res) => {
-  console.log('Protected route accessed', req.body);
   res.status(200).json({ message: 'Welcome to the API', user: req.user || 'Guest' });
 });
 

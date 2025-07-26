@@ -1,7 +1,6 @@
 const { verifyAccessToken, verifyRefreshToken, generateAccessToken } = require('../helper/authHelper');
 
 const verifyToken = (req, res, next) => {
-  console.log("1234")
   const accessToken = req.cookies?.[process.env.ACCESS_TOKEN_NAME];
   const refreshToken = req.cookies?.[process.env.REFRESH_TOKEN_NAME];
 
