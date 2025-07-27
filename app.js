@@ -10,10 +10,16 @@ const allowedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: allowedMethods,
+  credentials: true
+}));
 
 app.use('/', APIs);
 
