@@ -3,6 +3,8 @@ const { verifyAccessToken, verifyRefreshToken, generateAccessToken } = require('
 const verifyToken = (req, res, next) => {
   const accessToken = req.cookies?.[process.env.ACCESS_TOKEN_NAME];
   const refreshToken = req.cookies?.[process.env.REFRESH_TOKEN_NAME];
+
+  console.log("=cookies=", req.cookies);
   if (!accessToken) return res.status(401).json({ error: 'Access token is missing' });
 
   try {
