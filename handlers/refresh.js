@@ -16,7 +16,7 @@ async function endpoint(req, res) {
     res.cookie(process.env.ACCESS_TOKEN_NAME, newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       maxAge: 15 * 60 * 1000
     });
     res.status(200).json({ message: 'Access token refreshed successfully' });

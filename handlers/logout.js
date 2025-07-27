@@ -9,13 +9,13 @@ async function endpoint(req, res) {
  res.clearCookie(process.env.ACCESS_TOKEN_NAME, {
     httpOnly: true,
     secure: false,
-    sameSite: 'strict',
+    sameSite: 'none',
   });
 
   res.clearCookie(process.env.REFRESH_TOKEN_NAME, {
     httpOnly: true,
     secure: false,
-    sameSite: 'strict',
+    sameSite: 'none',
   });
   console.log('logging user out done');
   // Respond with a success message

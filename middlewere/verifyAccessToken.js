@@ -28,7 +28,7 @@ const verifyToken = (req, res, next) => {
       res.cookie(process.env.ACCESS_TOKEN_NAME, newAccessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'none',
         maxAge: 15 * 60 * 1000
       });
       console.log("== New access token issued ==");
