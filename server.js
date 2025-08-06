@@ -4,6 +4,8 @@
  */
 require('dotenv').config();
 const app = require('./app');
+const { connectToMongo } = require('./connects/mongoConnection');
+connectToMongo();
 
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port 3333');

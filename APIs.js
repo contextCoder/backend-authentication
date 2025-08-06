@@ -4,6 +4,7 @@ const router = expressPromiseRouter();
 const logout = require('./handlers/logout');
 const refresh = require('./handlers/refresh');
 const login = require('./handlers/login');
+const createUserHandler = require('./handlers/createUser');
 const verifyToken = require('./middlewere/verifyAccessToken');
 
 router.route('/logout').post(logout.endpoint);
@@ -16,5 +17,7 @@ router.route('/health').get((req, res) => {
 router.route('/protected').get(verifyToken, (req, res) => {
   res.status(200).json({ message: 'Welcome to the API', user: req.user || 'Guest' });
 });
+
+router.route('/createUser').post(createUserHandler.endpoint);
 
 module.exports = router;

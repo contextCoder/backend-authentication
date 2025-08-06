@@ -2,24 +2,27 @@
  * @file login.js
  * @description This file contains the login logic for the backend application.
  */
+const bcrypt = require('bcrypt');
+const userSchema = require('../connects/schema/createUserSchema');
 const { generateAccessToken,  generateRefreshToken } = require('../helper/authHelper');
-const DUMMY_USER = { id: 1, username: 'user' };
-
 async function endpoint(req, res) {
-  const { username, password } = req.body;
-
+  const { email, password } = req.body;
   try {
-    if (!username || !password) {
+    // will handel this via validation later
+    if (!email || !password) {
       return res.status(400).json({ error: 'Username and password are required' });
     }
 
-    // Replace with real user validation
-    if (username !== 'tukatodkari@gmail.com' || password !== 'tukatodkari@gmail.com') {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
+    const user = await userSchema.findOne({ email: email }).select('userId password');
+    if (!user) return res.status(401).json({ msg: 'User not found creat a account' });
 
-    const accessToken = generateAccessToken(DUMMY_USER);
-    const refreshToken = generateRefreshToken(DUMMY_USER);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ msg: 'Invalid credentials' });
+    const userObj = {
+      userId: user.userId
+    }
+    const accessToken = generateAccessToken(userObj);
+    const refreshToken = generateRefreshToken(userObj);
 
     res.cookie(process.env.ACCESS_TOKEN_NAME, accessToken, {
       httpOnly: true,
@@ -37,6 +40,7 @@ async function endpoint(req, res) {
 
     res.status(200).json({status: 'success', message: 'user loggedIn successfully'});
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ error: 'Internal server error' });
   }
 }
